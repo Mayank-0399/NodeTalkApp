@@ -1,4 +1,4 @@
-"# NodeTalk
+## NodeTalk ##
 
 A real-time chat application built with Node.js, Express, Socket.IO, and React. Sign up, log in, and chat with other connected users instantly.
 
@@ -210,16 +210,6 @@ mongosh  # Connect to MongoDB shell
 3. Get connection string: `mongodb+srv://user:password@cluster.mongodb.net/nodetalk`
 4. Whitelist your IP address
 
-## 🐛 Troubleshooting
-
-### Backend Error: "Illegal arguments: string, undefined"
-- This means a user was created without a password hash
-- Delete old users from MongoDB: `db.users.deleteMany({})`
-
-### CORS Issues
-- Frontend and backend URLs must match in environment variables
-- Check `VITE_API_URL` in frontend `.env`
-
 ### MongoDB Connection Failed
 - Ensure MongoDB is running locally or check your Atlas connection string
 - Verify IP whitelist in MongoDB Atlas
@@ -252,6 +242,11 @@ This project is open source and available under the MIT License.
 ## 👨‍💻 Author
 
 **Mayank** - [GitHub](https://github.com/Mayank-0399)
+
+## Live link
+Follow this to join us in ourr chat room Make sure to signup first and then login
+
+[LiveLink]https://nodetalkapp-3.onrender.com
 
 ## 🤝 Contributing
 
