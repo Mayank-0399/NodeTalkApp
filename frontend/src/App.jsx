@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import { LogOut, MessageCircle, Send, ShieldCheck, Sparkles, UsersRound } from 'lucide-react';
 
 const TOKEN_KEY = 'nodetalk-token';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 function AuthView({ onAuthenticated }) {
   const [mode, setMode] = useState('login');
@@ -28,7 +29,7 @@ function AuthView({ onAuthenticated }) {
 
       if (isSignup) payload.name = form.name.trim();
 
-      const response = await fetch(`/api/auth/${mode}`, {
+      const response = await fetch(`${API_URL}/api/auth/${mode}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -173,7 +174,7 @@ function ChatView({ user, onLogout }) {
   }, []);
 
   useEffect(() => {
-    const socket = io('/', {
+    const socket = io(API_URL, {
       auth: { token: localStorage.getItem(TOKEN_KEY) },
       transports: ['websocket', 'polling'],
       reconnection: true,
@@ -326,7 +327,7 @@ export default function App() {
       return;
     }
 
-    fetch('/api/auth/me', {
+    fetch(`${API_URL}/api/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (response) => {
@@ -344,7 +345,7 @@ export default function App() {
     setUser(null);
 
     if (token) {
-      await fetch('/api/auth/logout', {
+      await fetch(`${API_URL}/api/auth/logout`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
