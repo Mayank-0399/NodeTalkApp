@@ -15,6 +15,17 @@ const PORT = process.env.PORT || 8000;
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 const JWT_SECRET = process.env.JWT_SECRET || process.env.SESSION_SECRET || 'nodetalk-dev-secret';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
+const FRONTEND_URL = process.env.FRONTEND_URL || '*';
+
+// CORS middleware for HTTP requests
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', FRONTEND_URL);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 
 if (!MONGO_CONNECTION_STRING) {
   console.warn('MONGO_CONNECTION_STRING is missing. Add it to backend/.env before signing up or logging in.');
@@ -183,8 +194,9 @@ app.post('/api/auth/logout', requireAuth, (req, res) => {
 
 const io = socketIo(server, {
   cors: {
-    origin: '*',
+    origin: FRONTEND_URL,
     methods: ['GET', 'POST'],
+    credentials: true,
   },
   transports: ['websocket', 'polling'],
 });
